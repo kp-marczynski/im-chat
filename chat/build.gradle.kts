@@ -36,3 +36,40 @@ tasks.withType<KotlinCompile> {
         jvmTarget = "1.8"
     }
 }
+
+// angular integration based on: https://blog.marcnuri.com/angular-spring-boot-integration-gradle/
+val webappDir = "$projectDir/src/main/webapp"
+sourceSets.getByName("main") {
+    resources.srcDir("$webappDir/dist")
+    resources.srcDir("$projectDir/src/main/resources")
+}
+
+tasks.processResources {
+    dependsOn("buildAngular")
+}
+
+tasks.register<Exec>("buildAngular") {
+    // installAngular should be run prior to this task
+    dependsOn("installAngular")
+    workingDir(webappDir)
+    inputs.dir(webappDir)
+    // Add task to the standard build group
+    group = BasePlugin.BUILD_GROUP
+    // ng doesn't exist as a file in windows -> ng.cmd
+    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
+        commandLine("ng.cmd", "build")
+    } else {
+        commandLine(listOf("ng", "build"))
+    }
+}
+
+tasks.register<Exec>("installAngular") {
+    workingDir(webappDir)
+    inputs.dir(webappDir)
+    group = BasePlugin.BUILD_GROUP
+    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
+        commandLine(listOf("npm.cmd", "install"))
+    } else {
+        commandLine(listOf("npm", "install"))
+    }
+}
