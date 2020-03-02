@@ -50,7 +50,7 @@ tasks.processResources {
 
 tasks.register<Exec>("buildAngular") {
     // installAngular should be run prior to this task
-    dependsOn("installAngular")
+//    dependsOn("installAngular")
     workingDir(webappDir)
     inputs.dir(webappDir)
     // Add task to the standard build group
@@ -63,13 +63,13 @@ tasks.register<Exec>("buildAngular") {
     }
 }
 
-tasks.register<Exec>("installAngular") {
-    workingDir(webappDir)
-    inputs.dir(webappDir)
-    group = BasePlugin.BUILD_GROUP
-    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
-        commandLine(listOf("npm.cmd", "install"))
-    } else {
-        commandLine(listOf("npm", "install"))
-    }
-}
+//tasks.register<Exec>("installAngular") {
+//    workingDir(webappDir)
+//    inputs.dir(webappDir)
+//    group = BasePlugin.BUILD_GROUP
+//    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
+//        commandLine(listOf("npm.cmd", "install"))
+//    } else {
+//        commandLine(listOf("npm", "install"))
+//    }
+//}
