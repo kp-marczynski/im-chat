@@ -14,24 +14,21 @@ export class ChatService {
     this.subscribePublicMessages();
   }
 
-  public subscribePublicMessages(): Observable<IChatMessage> {
-    return this.socketClientService
-      .onMessage('/topic/public')
-  }
+  public subscribePublicMessages = (): Observable<IChatMessage> =>
+    this.socketClientService.onMessage('/topic/public');
 
-  public joinPublicChat(username: string, callback: Function): void {
+
+  public joinPublicChat = (username: string, callback: Function): void => {
     this.currentUsername = username;
     this.socketClientService.send("/app/chat.addUser",
       new ChatMessage(MessageType.JOIN, username)
     );
     callback();
-  }
+  };
 
-  public isUserPresent() {
-    return !!this.currentUsername;
-  }
+  public isUserPresent = () => !!this.currentUsername;
 
-  public sendPublicMessage(message: string): void {
+  public sendPublicMessage = (message: string): void => {
     if (this.currentUsername) {
       this.socketClientService.send("/app/chat.sendMessage",
         new ChatMessage(MessageType.CHAT, this.currentUsername, message)
