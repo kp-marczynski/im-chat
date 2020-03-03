@@ -5,7 +5,8 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      working-directory: ./chat
     steps:
       - uses: actions/checkout@v1
       - name: Set up JDK 1.11
