@@ -63,13 +63,13 @@ tasks.register<Exec>("buildAngular") {
     }
 }
 
-//tasks.register<Exec>("installAngular") {
-//    workingDir(webappDir)
-//    inputs.dir(webappDir)
-//    group = BasePlugin.BUILD_GROUP
-//    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
-//        commandLine(listOf("npm.cmd", "install"))
-//    } else {
-//        commandLine(listOf("npm", "install"))
-//    }
-//}
+tasks.register<Exec>("installAngular") {
+    workingDir(webappDir)
+    inputs.dir(webappDir)
+    group = BasePlugin.BUILD_GROUP
+    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
+        commandLine(listOf("npm.cmd", "install"))
+    } else {
+        commandLine(listOf("npm", "install"))
+    }
+}
