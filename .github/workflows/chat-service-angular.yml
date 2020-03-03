@@ -1,14 +1,10 @@
 name: Chat Service - Angular tests
-on:
-  push:
-    branches:
-      - master
+
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./chat/src/main/webapp
     strategy:
       matrix:
         node-version: [10.x]
@@ -22,6 +18,8 @@ jobs:
           node-version: $
 
       - name: npm install and npm run build
+        env:
+          working-directory: ./chat/src/main/webapp
         run: |
           npm ci
           npm run build:ci
