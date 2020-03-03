@@ -15,11 +15,10 @@ jobs:
       - name: Node $
         uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: ${{ matrix.node-version }}
 
       - name: npm install and npm run build
-        env:
-          working-directory: ./chat/src/main/webapp
         run: |
+          cd chat/src/main/webapp
           npm ci
           npm run build:ci

@@ -14,11 +14,11 @@ jobs:
           java-version: 1.11
 
       - name: Build with Gradle
-        env:
-          working-directory: ./chat
-        run: sh gradlew clean build -x test
+        run: |
+          cd chat
+          sh gradlew clean build -x test
 
       - name: Run tests
-        env:
-          working-directory: ./chat
-        run: sh gradlew test
+        run: |
+          cd chat
+          sh gradlew test
