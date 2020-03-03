@@ -60,11 +60,12 @@ fun setupAngularEnv(context: Exec) {
 fun runNpmCommand(context: Exec, command: String) {
     setupAngularEnv(context)
     // ng doesn't exist as a file in windows -> ng.cmd
-    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
-        context.commandLine("ng.cmd", command)
+    val npmAlias = if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
+        "npm.cmd"
     } else {
-        context.commandLine(listOf("ng", command))
+        "npm"
     }
+    context.commandLine(listOf(npmAlias, command))
 }
 
 tasks.register<Exec>("angularBuild") {

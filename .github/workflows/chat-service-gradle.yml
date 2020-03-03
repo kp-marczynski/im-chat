@@ -12,6 +12,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.11
+          node-version: '10.x'
 
       - name: Build with Gradle
         run: |
