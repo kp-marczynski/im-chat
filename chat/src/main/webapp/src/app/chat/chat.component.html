@@ -1,0 +1,31 @@
+<div [ngSwitch]="isUserPresent">
+  <div *ngSwitchCase="false">
+    <h1 class="title">Type your username</h1>
+    <form id="usernameForm" name="usernameForm" (submit)="joinAsUser(username.value); usernameForm.reset()"
+          #usernameForm>
+      <div class="form-group">
+        <label for="username" hidden>Username</label>
+        <input type="text" id="username" #username placeholder="Username" autocomplete="off" class="form-control"
+               autofocus/>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">
+        Start Chatting
+      </button>
+    </form>
+  </div>
+  <div *ngSwitchCase="true">
+    <h1 class="title">Chat</h1>
+    <ul>
+      <li *ngFor="let message of messages">{{message.type}}; {{message.sender}}; {{message.content}}</li>
+    </ul>
+    <form (submit)="sendMessage(newMessage.value); messageForm.reset()" #messageForm>
+      <div class="form-group">
+        <label for="new-message" hidden>New message</label>
+        <input type="text" class="form-control" id="new-message" placeholder="Type message..." #newMessage autofocus>
+        <button type="submit" class="btn btn-primary btn-block">
+          Send
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
