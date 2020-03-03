@@ -45,7 +45,9 @@ sourceSets.getByName("main") {
 }
 
 tasks.processResources {
-    dependsOn("angularBuild")
+    if (!project.gradle.startParameter.taskNames.contains("test")) {
+        dependsOn("angularBuild")
+    }
 }
 
 fun setupAngularEnv(context: Exec) {
@@ -55,7 +57,7 @@ fun setupAngularEnv(context: Exec) {
     context.group = "angular"
 }
 
-fun runNpmCommand(context: Exec, command: String){
+fun runNpmCommand(context: Exec, command: String) {
     setupAngularEnv(context)
     // ng doesn't exist as a file in windows -> ng.cmd
     if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
