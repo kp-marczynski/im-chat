@@ -45,31 +45,42 @@ sourceSets.getByName("main") {
 }
 
 tasks.processResources {
-    dependsOn("buildAngular")
+    dependsOn("angularBuild")
 }
 
-tasks.register<Exec>("buildAngular") {
-    // installAngular should be run prior to this task
-//    dependsOn("installAngular")
-    workingDir(webappDir)
-    inputs.dir(webappDir)
+fun setupAngularEnv(context: Exec) {
+    context.workingDir(webappDir)
+    context.inputs.dir(webappDir)
     // Add task to the standard build group
-    group = BasePlugin.BUILD_GROUP
+    context.group = "angular"
+}
+
+fun runNpmCommand(context: Exec, command: String){
+    setupAngularEnv(context)
     // ng doesn't exist as a file in windows -> ng.cmd
     if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
-        commandLine("ng.cmd", "build")
+        context.commandLine("ng.cmd", command)
     } else {
-        commandLine(listOf("ng", "build"))
+        context.commandLine(listOf("ng", command))
     }
 }
 
-tasks.register<Exec>("installAngular") {
-    workingDir(webappDir)
-    inputs.dir(webappDir)
-    group = BasePlugin.BUILD_GROUP
-    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
-        commandLine(listOf("npm.cmd", "install"))
-    } else {
-        commandLine(listOf("npm", "install"))
-    }
+tasks.register<Exec>("angularBuild") {
+    runNpmCommand(this, "build")
+}
+
+tasks.register<Exec>("angularInstall") {
+    runNpmCommand(this, "install")
+}
+
+tasks.register<Exec>("angularStart") {
+    runNpmCommand(this, "start")
+}
+
+tasks.register<Exec>("angularTestUnit") {
+    runNpmCommand(this, "test")
+}
+
+tasks.register<Exec>("angularTestE2E") {
+    runNpmCommand(this, "e2e")
 }
