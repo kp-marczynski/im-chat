@@ -1,4 +1,4 @@
-name: CI
+name: Chat Service - Gradle tests
 
 on: [push]
 
@@ -14,7 +14,7 @@ jobs:
           java-version: 1.11
 
       - name: Build with Gradle
-        run: ./chat/gradlew clean build -x test
+        run: sh chat/gradlew clean build -x test
 
       - name: Run tests
-        run: ./chat/gradlew test
+        run: sh chat/gradlew test
