@@ -59,20 +59,24 @@ fun setupAngularEnv(context: Exec) {
     context.group = "angular"
 }
 
-fun runNpmCommand(context: Exec, command: String) {
-    setupAngularEnv(context)
+fun runNpmCommand(context: Exec, command: String, runInAngularContext: Boolean = true) {
+    if (runInAngularContext) setupAngularEnv(context)
     // ng doesn't exist as a file in windows -> ng.cmd
     val npmAlias = "npm" + if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
         ".cmd"
     } else {
         ""
     }
-    context.commandLine(listOf(npmAlias, "run", command))
+    if (runInAngularContext) {
+        context.commandLine(listOf(npmAlias, "run", command))
+    } else {
+        context.commandLine(listOf(npmAlias, "run", command))
+    }
 }
 
 fun installNodeModules(context: Exec) {
     if (!file("node_modules").exists()) {
-        runNpmCommand(context, "install")
+        runNpmCommand(context, "install", false)
     }
 }
 tasks.register<Exec>("angularBuild") {
