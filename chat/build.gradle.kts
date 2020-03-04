@@ -67,6 +67,7 @@ fun runNpmCommand(context: Exec, command: String) {
     } else {
         ""
     }
+    context.commandLine(listOf(npmAlias, "install", "@angular/cli"))
     context.commandLine(listOf(npmAlias, "run", command))
 }
 
