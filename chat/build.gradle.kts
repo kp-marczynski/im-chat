@@ -70,7 +70,13 @@ fun runNpmCommand(context: Exec, command: String) {
     context.commandLine(listOf(npmAlias, "run", command))
 }
 
+fun installNodeModules(context: Exec) {
+    if (!file("node_modules").exists()) {
+        runNpmCommand(context, "install")
+    }
+}
 tasks.register<Exec>("angularBuild") {
+    installNodeModules(this)
     runNpmCommand(this, "build")
 }
 
@@ -79,13 +85,16 @@ tasks.register<Exec>("angularInstall") {
 }
 
 tasks.register<Exec>("angularStart") {
+    installNodeModules(this)
     runNpmCommand(this, "start")
 }
 
 tasks.register<Exec>("angularTestUnit") {
+    installNodeModules(this)
     runNpmCommand(this, "test")
 }
 
 tasks.register<Exec>("angularTestE2E") {
+    installNodeModules(this)
     runNpmCommand(this, "e2e")
 }
