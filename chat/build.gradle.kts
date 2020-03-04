@@ -59,30 +59,18 @@ fun setupAngularEnv(context: Exec) {
     context.group = "angular"
 }
 
-fun runNpmCommand(context: Exec, command: String, runInAngularContext: Boolean = true) {
-    if (runInAngularContext) setupAngularEnv(context)
+fun runNpmCommand(context: Exec, command: String) {
+    setupAngularEnv(context)
     // ng doesn't exist as a file in windows -> ng.cmd
     val npmAlias = "npm" + if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
         ".cmd"
     } else {
         ""
     }
-    if (runInAngularContext) {
-        context.commandLine(listOf(npmAlias, "install ", "@angular/cli"))
-        context.commandLine(listOf(npmAlias, "run", command))
-    } else {
-        context.commandLine(listOf(npmAlias, command))
-    }
+    context.commandLine(listOf(npmAlias, "run", command))
 }
 
-fun installNodeModules(context: Exec) {
-    setupAngularEnv(context)
-    if (!file("node_modules").exists()) {
-        runNpmCommand(context, "install", false)
-    }
-}
 tasks.register<Exec>("angularBuild") {
-    installNodeModules(this)
     runNpmCommand(this, "build")
 }
 
@@ -91,16 +79,13 @@ tasks.register<Exec>("angularInstall") {
 }
 
 tasks.register<Exec>("angularStart") {
-    installNodeModules(this)
     runNpmCommand(this, "start")
 }
 
 tasks.register<Exec>("angularTestUnit") {
-    installNodeModules(this)
     runNpmCommand(this, "test")
 }
 
 tasks.register<Exec>("angularTestE2E") {
-    installNodeModules(this)
     runNpmCommand(this, "e2e")
 }

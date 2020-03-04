@@ -12,6 +12,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.11
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
           node-version: '10.x'
 
       - name: Build with Gradle
