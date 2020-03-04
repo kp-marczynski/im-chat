@@ -10,6 +10,7 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.messaging.SessionConnectedEvent
 import org.springframework.web.socket.messaging.SessionDisconnectEvent
+import java.time.LocalDateTime
 
 @Component
 class WebSocketEventListener {
@@ -29,7 +30,7 @@ class WebSocketEventListener {
         val username = headerAccessor.sessionAttributes!!["username"] as String?
         if (username != null) {
             logger.info("User Disconnected : $username")
-            val chatMessage = ChatMessage(ChatMessage.MessageType.LEAVE, username, null)
+            val chatMessage = ChatMessage(ChatMessage.MessageType.LEAVE, LocalDateTime.now(), username, null)
             messagingTemplate!!.convertAndSend("/topic/public", chatMessage)
         }
     }

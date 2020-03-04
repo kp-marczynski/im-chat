@@ -16,7 +16,7 @@
   <div *ngSwitchCase="true">
     <h1 class="title">Chat</h1>
     <ul>
-      <li *ngFor="let message of messages">{{message.type}}; {{message.sender}}; {{message.content}}</li>
+      <li *ngFor="let message of messages">{{message.timestamp | date: 'medium'}}; {{message.type}}; {{message.sender}}; {{message.content}}</li>
     </ul>
     <form (submit)="sendMessage(newMessage.value); messageForm.reset()" #messageForm>
       <div class="form-group">
