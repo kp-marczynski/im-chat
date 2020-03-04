@@ -17,7 +17,7 @@ class WebSocketEventListener {
     private val logger: Logger = LoggerFactory.getLogger(WebSocketEventListener::class.java)
 
     @Autowired
-    private val messagingTemplate: SimpMessageSendingOperations? = null
+    private lateinit var messagingTemplate: SimpMessageSendingOperations
 
     @EventListener
     fun handleWebSocketConnectListener(event: SessionConnectedEvent?) {
@@ -31,7 +31,7 @@ class WebSocketEventListener {
         if (username != null) {
             logger.info("User Disconnected : $username")
             val chatMessage = ChatMessage(ChatMessage.MessageType.LEAVE, LocalDateTime.now(), username, null)
-            messagingTemplate!!.convertAndSend("/topic/public", chatMessage)
+            messagingTemplate.convertAndSend("/topic/public", chatMessage)
         }
     }
 }
