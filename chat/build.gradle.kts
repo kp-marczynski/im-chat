@@ -76,6 +76,7 @@ fun runNpmCommand(context: Exec, command: String, runInAngularContext: Boolean =
 }
 
 fun installNodeModules(context: Exec) {
+    setupAngularEnv(context)
     if (!file("node_modules").exists()) {
         runNpmCommand(context, "install", false)
     }
