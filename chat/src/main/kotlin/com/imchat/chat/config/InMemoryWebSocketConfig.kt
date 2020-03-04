@@ -11,7 +11,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Configuration
 @EnableWebSocketMessageBroker
 @Profile("!rabbit")
-class InMemoryWebSocketConfig: WebSocketMessageBrokerConfigurer {
+class InMemoryWebSocketConfig : WebSocketMessageBrokerConfigurer {
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
         registry.addEndpoint("/ws").withSockJS()
     }
